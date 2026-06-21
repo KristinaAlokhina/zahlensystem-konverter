@@ -22,5 +22,4 @@ Eine leichtgewichtige Windows-Forms-Desktopanwendung in C#, die eingegebene Dezi
    
 
 Um eine einzelne, eigenständige `.exe`-Datei ohne zusätzliche DLL-Dateien zu erstellen, führen Sie folgenden Befehl aus:
-
 dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:PublishReadyToRun=true --self-contained false
