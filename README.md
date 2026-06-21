@@ -15,7 +15,7 @@ A lightweight Windows Forms desktop application written in C# that converts deci
 
 📦 Installation & How to Run
 1. Clone this repository to your local PC:
-   git clone https://github.com
+   git clone https://github.com/KristinaAlokhina/zahlensystem-konverter
    
 2. Navigate to the project folder and launch the application directly using the .NET SDK:
    dotnet run
