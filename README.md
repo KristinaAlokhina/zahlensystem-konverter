@@ -1,4 +1,4 @@
-Number System Converter (GUI)
+## Number System Converter (GUI)
 
 A lightweight Windows Forms desktop application written in C# that converts decimal numbers into binary and hexadecimal systems in real-time, featuring a graphical user interface (GUI).
 
