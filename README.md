@@ -1,62 +1,75 @@
 # Zahlensystem-Konverter / Number System Converter
 
 <p align="center">
-  <a href="#de-deutsch">Deutsch</a> • 
-  <a href="#en-english">English</a>
+  <a href="#-deutsch">Deutsch</a> • 
+  <a href="#-english">English</a>
 </p>
+
 
 ---
 
-## DE: Deutsch
+## 🇩🇪 Deutsch
 
-### zahlensystem-konverter (gui)
-Eine leichtgewichtige Windows-Forms-Desktopanwendung in C#, die eingegebene Dezimalzahlen in Echtzeit in das Binär- und Hexadezimalsystem umrechnet. Das Projekt verfügt über eine grafische Benutzeroberfläche (GUI).
 
 ### 🚀 Funktionen
-* **Echtzeit-Konvertierung:** Wandelt jede gültige ganze Dezimalzahl sofort in das Binär- (Basis 2) und Hexadezimalformat (Basis 16) um.
-* **Eingabevalidierung:** Sichere Fehlerbehandlung mittels `int.TryParse`, um Systemabstürze durch ungültige oder nicht-numerische Eingaben zu verhindern.
-* **Grafische Benutzeroberfläche (GUI):** Sauberes und minimalistisches Windows-Forms-Fenster, das direkt im Code ohne externe Design-Abhängigkeiten erstellt wurde.
-* **Hex-Formatierung:** Automatische Formatierung der Hexadezimal-Ausgabe mit dem IT-Standard-Präfix `0x`.
+* **Umfassende Konvertierung**: Wandelt dezimale Ganzzahlen simultan in die drei wichtigsten IT-Zahlensysteme um (Binär, Oktal und Hexadezimal).
+* **Schnelle Zwischenablage**: Integrierter Kopier-Button (📋) zur sofortigen Übernahme des generierten Binärcodes.
+* **Komfortable Steuerung**: Unterstützt die `Enter`-Taste zur automatischen Auslösung der Konvertierung direkt aus dem Eingabefeld.
+* **Ein-Klick-Zurücksetzung**: Ein dedizierter Löschen-Button setzt das Interface blitzschnell für eine neue Eingabe zurück.
+* **Robuste Validierung**: Verhindert Fehleingaben durch integrierte Typprüfung (`int.TryParse`) mit klaren Fehlermeldungen via MessageBox.
 
 ### 🛠️ Technologien
-* C# (Sprachversion 6.0+)
-* .NET SDK 8.0 / 9.0 (Windows Forms Komponente)
-* Integrierte Namespaces: `System.Drawing`, `System.Windows.Forms`
+* .NET Framework / .NET Core (C#)
+* Windows Forms (GUI)
+* Verwendete Namespaces: `System`, `System.Drawing`, `System.Windows.Forms`
+
+### 📂 Struktur der Dateisortierung
+Die Anwendung strukturiert die Ergebnisse übersichtlich nach folgenden Systemen:
+* **Dezimal**: Zeigt die eingegebene Basis-10-Zahl zur Kontrolle.
+* **Binär (Base 2)**: Gibt den reinen Binärcode der Zahl aus.
+* **Oktal (Base 8)**: Stellt die Zahl im klassischen achtbasierten System dar.
+* **Hex (Base 16)**: Formatiert die Ausgabe in Großbuchstaben mit dem typischen `0x`-Präfix.
 
 ### 📦 Installation & Start
-1. Klonen Sie dieses Repository auf Ihren lokalen PC:
+1. Repository klonen:
    ```bash
-   git clone https://github.com/kristinaalokhina/zahlensystem-konverter
+   git clone https://github.com/KristinaAlokhina/zahlensystem-konverter
    ```
-2. Navigieren Sie in den Projektordner und starten sie die Anwendung direkt über das .NET SDK:
+2. Projekt in Visual Studio öffnen oder über die CLI kompilieren и запускать:
    ```bash
    dotnet run
    ```
 
 ---
 
-## EN: English
+## 🇺🇸 English
 
-### Number System Converter (GUI)
-A lightweight Windows Forms desktop application written in C# that converts decimal numbers into binary and hexadecimal systems in real-time, featuring a graphical user interface (GUI).
 
 ### 🚀 Features
-* **Real-time conversion:** Converts any valid decimal integer into both binary (base 2) and hex (base 16) formats instantly.
-* **Input validation:** Secure error-handling via `int.TryParse` to prevent system crashes from invalid or non-numeric inputs.
-* **Graphical user interface (GUI):** Clean and simple Windows Forms window built directly in code without external design dependencies.
-* **Hex formatting:** Automatically formats hexadecimal outputs with the standard `0x` prefix.
+* **Comprehensive Conversion**: Simultaneously converts decimal integers into three essential IT numeral systems (Binary, Octal, and Hexadecimal).
+* **Quick Clipboard Copy**: Built-in copy button (📋) to instantly save the generated binary code to your clipboard.
+* **Enhanced Usability**: Supports the `Enter` key to automatically trigger the conversion directly from the input text box.
+* **One-Click Reset**: A dedicated Clear button instantly resets all input fields and labels for the next calculation.
+* **Robust Validation**: Prevents invalid inputs using secure type checking (`int.TryParse`) with descriptive error MessageBox alerts.
 
 ### 🛠️ Technologies
-* C# (Language version 6.0+)
-* .NET SDK 8.0 / 9.0 (Windows Forms component)
-* Built-in namespaces: `System.Drawing`, `System.Windows.Forms`
+* .NET Framework / .NET Core (C#)
+* Windows Forms (GUI)
+* Core Namespaces: `System`, `System.Drawing`, `System.Windows.Forms`
+
+### 📂 File Sorting Structure
+The application categorizes and formats the outputs based on the following bases:
+* **Decimal (Dezimal)**: Displays the entered base-10 number for verification.
+* **Binary (Binär - Base 2)**: Outputs the exact binary stream of the number.
+* **Octal (Oktal - Base 8)**: Represents the number in the classic base-8 notation.
+* **Hex (Base 16)**: Formats the hexadecimal output in uppercase with the standard `0x` prefix.
 
 ### 📦 Installation & Setup
-1. Clone this repository to your local machine:
+1. Clone the repository:
    ```bash
-   git clone https://github.com/kristinaalokhina/zahlensystem-konverter
+   git clone https://github.com/KristinaAlokhina/zahlensystem-konverter
    ```
-2. Navigate to the project folder and run the application directly via the .NET SDK:
+2. Open the project in Visual Studio or compile and run via CLI:
    ```bash
    dotnet run
    ```
