@@ -18,7 +18,7 @@ namespace NumerikKonverterGui
         private Label lblResultHex;
         private Label lblPrompt;
 
-        // Zustandsspeicherung (verhindert fehleranfälliges Parsen von UI-Texten)
+        // Zustandsspeicherung (verhindert fehleranfaelliges Parsen von UI-Texten)
         private string currentBinary = string.Empty;
 
         public Program()
@@ -28,9 +28,9 @@ namespace NumerikKonverterGui
 
         private void InitializeComponent()
         {
-            // Einstellungen für das Hauptfenster
+            // Einstellungen fuer das Hauptfenster
             this.Text = "IT-Zahlensystem-Konverter";
-            this.Size = new Size(280, 350); // Höhe für das Dropdown-Menü vergrößert
+            this.Size = new Size(280, 350); // Hoehe fuer das Dropdown-Menue vergroessert
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -41,7 +41,7 @@ namespace NumerikKonverterGui
             // Dropdown-Liste zur Auswahl des Zahlensystems (Eingabe)
             cmbInputType = new ComboBox() { Location = new Point(20, 40), Width = 220, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbInputType.Items.AddRange(new string[] { "Dezimal (Base 10)", "Binär (Base 2)", "Oktal (Base 8)", "Hexadezimal (Base 16)" });
-            cmbInputType.SelectedIndex = 0; // Standardmäßig Dezimal
+            cmbInputType.SelectedIndex = 0; // Standardmaessig Dezimal
 
             txtInput = new TextBox() { Location = new Point(20, 70), Width = 220 };
             btnConvert = new Button() { Text = "Konvertieren", Location = new Point(20, 110), Width = 105 };
@@ -54,7 +54,7 @@ namespace NumerikKonverterGui
             lblResultOkt = new Label() { Text = "Oktal (Base 8): -", Location = new Point(20, 220), Width = 220 };
             lblResultHex = new Label() { Text = "Hex (Base 16): -", Location = new Point(20, 250), Width = 220 };
 
-            // Elemente zum Formular hinzufügen
+            // Elemente zum Formular hinzufuegen
             this.Controls.AddRange(new Control[] { 
                 lblPrompt, cmbInputType, txtInput, btnConvert, btnClear, 
                 lblResultDez, lblResultBin, btnCopyBin, lblResultOkt, lblResultHex 
@@ -79,13 +79,13 @@ namespace NumerikKonverterGui
             
             try
             {
-                // Bei Hexadezimal das Präfix "0x" entfernen, falls der Benutzer es eingegeben hat
+                // Bei Hexadezimal das Praefix "0x" entfernen, falls der Benutzer es eingegeben hat
                 if (fromBase == 16 && input.StartsWith("0X", StringComparison.OrdinalIgnoreCase))
                 {
                     input = input.Substring(2);
                 }
 
-                // Schritt 1: Konvertierung VOM gewählten System IN eine Dezimalzahl (int)
+                // Schritt 1: Konvertierung VOM gewaehlten System IN eine Dezimalzahl (int)
                 int decimalNumber = Convert.ToInt32(input, fromBase);
 
                 // Schritt 2: Konvertierung von Dezimal in alle anderen Systeme
@@ -104,6 +104,7 @@ namespace NumerikKonverterGui
             }
             catch
             {
+                // Fehlermeldung bei Formatkonflikten mit der gewaehlten Basis
                 MessageBox.Show("Ungültiges Format für die gewählte Basis.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -113,7 +114,7 @@ namespace NumerikKonverterGui
         {
             switch (cmbInputType.SelectedIndex)
             {
-                case 1: return 2;  // Binär
+                case 1: return 2;  // Binaer
                 case 2: return 8;  // Oktal
                 case 3: return 16; // Hexadezimal
                 default: return 10; // Dezimal
@@ -126,7 +127,7 @@ namespace NumerikKonverterGui
 
             int currentBase = GetSelectedBase();
 
-            // Intelligente Eingabevalidierung basierend auf dem ausgewählten Zahlensystem
+            // Intelligente Eingabevalidierung basierend auf dem ausgewaehlten Zahlensystem
             switch (currentBase)
             {
                 case 2: // Nur 0 und 1 erlauben
@@ -137,7 +138,7 @@ namespace NumerikKonverterGui
                     if (e.KeyChar < '0' || e.KeyChar > '7') e.Handled = true;
                     break;
 
-                case 10: // Ziffern und Minuszeichen für negative Zahlen erlauben
+                case 10: // Ziffern und Minuszeichen fuer negative Zahlen erlauben
                     if (!char.IsDigit(e.KeyChar) && e.KeyChar != '-') e.Handled = true;
                     if (e.KeyChar == '-' && ((sender as TextBox).SelectionStart != 0 || (sender as TextBox).Text.Contains("-"))) e.Handled = true;
                     break;
@@ -159,7 +160,7 @@ namespace NumerikKonverterGui
 
         private void BtnClear_Click(object sender, EventArgs e)
         {
-            // Formular in den Ausgangszustand zurücksetzen
+            // Formular komplett in den Ausgangszustand zuruecksetzen
             txtInput.Clear();
             currentBinary = string.Empty;
             lblResultDez.Text = "Dezimal: -";
@@ -172,7 +173,7 @@ namespace NumerikKonverterGui
 
         private void BtnCopyBin_Click(object sender, EventArgs e)
         {
-            // Binärcode in die Zwischenablage kopieren
+            // Binaercode sicher in die Windows-Zwischenablage kopieren
             if (!string.IsNullOrEmpty(currentBinary))
             {
                 Clipboard.SetText(currentBinary);
@@ -180,11 +181,12 @@ namespace NumerikKonverterGui
             }
         }
 
-        // Ressourcenbereinigung beim Schließen des Fensters (Verhindert Memory Leaks)
+        // Ressourcenbereinigung beim Schliessen des Fensters (Verhindert Memory Leaks)
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
+                // Pruefung auf Null und sichere Freigabe aller UI-Komponenten
                 cmbInputType?.Dispose();
                 txtInput?.Dispose();
                 btnConvert?.Dispose();
@@ -202,8 +204,11 @@ namespace NumerikKonverterGui
         [STAThread]
         static void Main()
         {
+            // Aktivierung des modernen visuellen Stils fuer Windows Forms Komponenten
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
+            // Startet die Anwendungsschleife mit dem Hauptfenster
             Application.Run(new Program());
         }
     }
