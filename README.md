@@ -11,12 +11,13 @@
 
 ### 🚀 Funktionen
 * **Umfassende bidirektionale Konvertierung**: Wandelt Ganzzahlen aus einem beliebigen System (Dezimal, Binär, Oktal oder Hexadezimal) simultan in alle anderen drei IT-Zahlensysteme um.
-* **Intelligente Eingabeauswahl**: Ein integriertes Dropdown-Menü (`ComboBox`) ermöglicht die flexible Festlegung des Eingabeformats.
-* **Dynamische Tastatur-Validierung**: Verhindert Fehleingaben direkt beim Tippen (`KeyPress`-Validierung). Im Binärmodus werden z. B. nur `0` und `1` akzeptiert, im Hexadezimalmodus nur gültige Hex-Zeichen (`0-9`, `A-F`).
-* **Schnelle Zwischenablage**: Integrierter Kopier-Button (📋) zur sofortigen Übernahme des generierten Binärcodes.
-* **Komfortable Steuerung**: Unterstützt die `Enter`-Taste zur automatischen Auslösung der Konvertierung direkt aus dem Eingabefeld.
-* **Ein-Klick-Zurücksetzung**: Ein dedizierter Löschen-Button setzt das Interface blitzschnell zurück und fokussiert das Eingabefeld neu.
-* **Sicheres Parsing & Speicherbereinigung**: Robuste Fehlerbehandlung bei der Konvertierung sowie ordnungsgemäße Ressourcenfreigabe (`Dispose`), um Memory Leaks zu verhindern.
+* **Intelligente Eingabeauswahl**: Ein integriertes Dropdown-Menü (`ComboBox`) ermöglicht die flexible Festlegung des Eingabeformats und setzt das Textfeld bei Systemwechsel automatisch zurück.
+* **Dynamische Tastatur-Validierung**: Verhindert Fehleingaben direkt beim Tippen (`KeyPress`-Validierung). Im Binärmodus werden nur `0` und `1` akzeptiert, im Dezimalmodus das Minuszeichen ausschließlich an erster Position.
+* **Fehlertolerantes Hex-Parsing**: Erkennt und verarbeitet hexadezimale Eingaben sowohl in Groß- als auch Kleinschreibung und entfernt das `0x`- oder `0X`-Präfix automatisch.
+* **Schnelle Zwischenablage**: Integrierter Kopier-Button (📋) zur sofortigen Übernahme des generierten Binärcodes inklusive visueller Erfolgsmeldung.
+* **Komfortable Steuerung**: Unterstützt die `Enter`-Taste (`AcceptButton`) zur automatischen Auslösung der Konvertierung direkt aus dem Eingabefeld.
+* **Ein-Klick-Zurücksetzung**: Ein dedizierter Löschen-Button setzt das Interface blitzschnell zurück, leert den Zustandsspeicher und fokussiert das Eingabefeld neu.
+* **Sicheres Parsing & Speicherbereinigung**: Robuste Fehlerbehandlung bei der Konvertierung sowie manuelle Freigabe aller GUI-Komponenten (`Dispose`), um Memory Leaks zu verhindern.
 
 ### 🛠️ Technologien
 * .NET Framework / .NET Core (C#)
@@ -25,7 +26,7 @@
 
 ### 📂 Unterstützte Zahlensysteme
 Die Anwendung strukturiert die Ergebnisse übersichtlich nach folgenden Systemen:
-* **Dezimal (Base 10)**: Zeigt das Ergebnis im Zehnersystem (unterstützt auch negative Zahlen).
+* **Dezimal (Base 10)**: Zeigt das Ergebnis im Zehnersystem (unterstützt negative Zahlen).
 * **Binär (Base 2)**: Gibt den reinen Binärcode der Zahl aus.
 * **Oktal (Base 8)**: Stellt die Zahl im klassischen achtbasierten System dar.
 * **Hexadezimal (Base 16)**: Formatiert die Ausgabe in Großbuchstaben mit dem typischen `0x`-Präfix.
@@ -46,12 +47,13 @@ Die Anwendung strukturiert die Ergebnisse übersichtlich nach folgenden Systemen
 
 ### 🚀 Features
 * **Comprehensive Bidirectional Conversion**: Converts integers from any chosen system (Decimal, Binary, Octal, or Hexadecimal) simultaneously into all other three IT numeral systems.
-* **Smart Input Selection**: A built-in dropdown menu (`ComboBox`) allows flexible definition of the input format.
-* **Dynamic Keyboard Validation**: Prevents invalid inputs on the fly via `KeyPress` filtering. For example, it restricts input to `0` and `1` in Binary mode, or valid hex characters (`0-9`, `A-F`) in Hexadecimal mode.
-* **Quick Clipboard Copy**: Built-in copy button (📋) to instantly save the generated binary code to your clipboard.
-* **Enhanced Usability**: Supports the `Enter` key to automatically trigger the conversion directly from the input text box.
-* **One-Click Reset**: A dedicated Clear button instantly resets all input fields, clear labels, and restores focus to the input box.
-* **Secure Parsing & Memory Management**: Robust error handling during conversion and proper resource disposal (`Dispose`) to prevent memory leaks.
+* **Smart Input Selection**: A built-in dropdown menu (`ComboBox`) allows flexible definition of the input format and automatically clears the input box upon changing the base.
+* **Dynamic Keyboard Validation**: Prevents invalid inputs on the fly via `KeyPress` filtering. It restricts input to `0` and `1` in Binary mode and enforces the minus sign to the first position in Decimal mode.
+* **Fault-Tolerant Hex Parsing**: Handles hexadecimal inputs case-insensitively and automatically strips out any user-entered `0x` or `0X` prefixes.
+* **Quick Clipboard Copy**: Built-in copy button (📋) to instantly save the generated binary code to your clipboard with a visual confirmation popup.
+* **Enhanced Usability**: Supports the `Enter` key (`AcceptButton`) to automatically trigger the conversion directly from the input text box.
+* **One-Click Reset**: A dedicated Clear button instantly resets all fields, clears the state cache, and restores active focus to the input box.
+* **Secure Parsing & Memory Management**: Robust error handling during conversion and manual UI component lifecycle control (`Dispose`) to prevent potential memory leaks.
 
 ### 🛠️ Technologies
 * .NET Framework / .NET Core (C#)
