@@ -1,22 +1,23 @@
+# --- Build-Ausgaben (Kompilierung) ---
 [Bb]in/
 [Oo]bj/
-[Log]s/
+[Ll]ogs/
 
-# --- (IDE) ---
+# --- IDE-spezifische Dateien ---
 # VS Code
 .vscode/
 
-# Visual Studio
+# --- Visual Studio ---
 .vs/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
 
-# JetBrains Rider / ReSharper
+# --- JetBrains Rider / ReSharper ---
 .idea/
 *.sln.DotSettings.user
 
-# --- Betriebsystem ---
+# --- Betriebssystem ---
 .DS_Store
 Thumbs.db
