@@ -6,7 +6,7 @@ namespace NumerikKonverterGui
 {
     public class Program : Form
     {
-        // Schnittstellenelemente (UI-Komponenten)
+        // UI-Komponenten
         private ComboBox cmbInputType;
         private TextBox txtInput;
         private Button btnConvert;
@@ -26,11 +26,20 @@ namespace NumerikKonverterGui
             InitializeComponent();
         }
 
+        // Einstiegspunkt der Anwendung (erlaubt die direkte Ausfuehrung)
+        [STAThread]
+        public static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Program());
+        }
+
         private void InitializeComponent()
         {
             // Einstellungen fuer das Hauptfenster
             this.Text = "IT-Zahlensystem-Konverter";
-            this.Size = new Size(280, 350); // Hoehe fuer das Dropdown-Menue vergroessert
+            this.Size = new Size(280, 350); 
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -65,6 +74,7 @@ namespace NumerikKonverterGui
             btnClear.Click += BtnClear_Click;
             btnCopyBin.Click += BtnCopyBin_Click;
             txtInput.KeyPress += TxtInput_KeyPress;
+            txtInput.TextChanged += TxtInput_TextChanged; // Schutz vor fehlerhafter Zwischenablage (Ctrl+V)
             cmbInputType.SelectedIndexChanged += CmbInputType_SelectedIndexChanged;
             
             this.AcceptButton = btnConvert; 
@@ -79,16 +89,27 @@ namespace NumerikKonverterGui
             
             try
             {
-                // Bei Hexadezimal das Praefix "0x" entfernen, falls der Benutzer es eingegeben hat
+                // BEHOBEN: 'X' wird nun im KeyPress-Validator erlaubt, damit Praefix-Pruefung funktioniert
                 if (fromBase == 16 && input.StartsWith("0X", StringComparison.OrdinalIgnoreCase))
                 {
                     input = input.Substring(2);
                 }
 
-                // Schritt 1: Konvertierung VOM gewaehlten System IN eine Dezimalzahl (int)
-                int decimalNumber = Convert.ToInt32(input, fromBase);
+                if (string.IsNullOrEmpty(input)) throw new FormatException();
 
-                // Schritt 2: Konvertierung von Dezimal in alle anderen Systeme
+                int decimalNumber;
+                if (fromBase == 10)
+                {
+                    decimalNumber = Convert.ToInt32(input, 10);
+                }
+                else
+                {
+                    // BEHOBEN: Verhindert FormatException bei Minuszeichen in Basen 2, 8, 16
+                    if (input.Contains("-")) throw new FormatException();
+                    decimalNumber = Convert.ToInt32(input, fromBase);
+                }
+
+                // Konvertierung von Dezimal in alle anderen Systeme
                 currentBinary = Convert.ToString(decimalNumber, 2);
                 string octal = Convert.ToString(decimalNumber, 8);
                 string hexadecimal = Convert.ToString(decimalNumber, 16).ToUpper();
@@ -99,13 +120,13 @@ namespace NumerikKonverterGui
                 lblResultOkt.Text = $"Oktal (Base 8): {octal}";
                 lblResultHex.Text = $"Hex (Base 16): 0x{hexadecimal}";
                 
-                // Kopieren-Button einblenden, sobald Ergebnisse vorliegen
+                // Kopieren-Button einblenden
                 btnCopyBin.Visible = true;
             }
             catch
             {
-                // Fehlermeldung bei Formatkonflikten mit der gewaehlten Basis
-                MessageBox.Show("Ungültiges Format für die gewählte Basis.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Fehlermeldung bei Formatkonflikten oder Ueberlauf (Overflow)
+                MessageBox.Show("Ungültiges Format oder Zahl zu groß für die gewählte Basis.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -126,6 +147,7 @@ namespace NumerikKonverterGui
             if (char.IsControl(e.KeyChar)) return;
 
             int currentBase = GetSelectedBase();
+            char upperChar = char.ToUpper(e.KeyChar);
 
             // Intelligente Eingabevalidierung basierend auf dem ausgewaehlten Zahlensystem
             switch (currentBase)
@@ -140,21 +162,27 @@ namespace NumerikKonverterGui
 
                 case 10: // Ziffern und Minuszeichen fuer negative Zahlen erlauben
                     if (!char.IsDigit(e.KeyChar) && e.KeyChar != '-') e.Handled = true;
-                    if (e.KeyChar == '-' && ((sender as TextBox).SelectionStart != 0 || (sender as TextBox).Text.Contains("-"))) e.Handled = true;
+                    if (e.KeyChar == '-' && (txtInput.SelectionStart != 0 || txtInput.Text.Contains("-"))) e.Handled = true;
                     break;
 
-                case 16: // Ziffern (0-9) und Buchstaben (A-F, Case-Insensitive) erlauben
-                    char upperChar = char.ToUpper(e.KeyChar);
-                    bool isValidHex = char.IsDigit(e.KeyChar) || (upperChar >= 'A' && upperChar <= 'F');
-                    if (!isValidHex) e.Handled = true;
+                case 16: // Ziffern (0-9), Buchstaben (A-F) und 'X' fuer Praefix erlauben
+                    bool isValidHexChar = char.IsDigit(e.KeyChar) || (upperChar >= 'A' && upperChar <= 'F') || upperChar == 'X';
+                    if (!isValidHexChar) e.Handled = true;
                     break;
             }
+        }
+
+        // Setzt den Kopier-Button zurueck, wenn der Text manuell geaendert wird
+        private void TxtInput_TextChanged(object sender, EventArgs e)
+        {
+            btnCopyBin.Visible = false;
         }
 
         private void CmbInputType_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Eingabefeld bei Systemwechsel leeren, um Validierungskonflikte zu vermeiden
             txtInput.Clear();
+            ResetLabels();
             txtInput.Focus();
         }
 
@@ -162,13 +190,19 @@ namespace NumerikKonverterGui
         {
             // Formular komplett in den Ausgangszustand zuruecksetzen
             txtInput.Clear();
+            ResetLabels();
+            txtInput.Focus();
+        }
+
+        // Hilfsmethode zur Vermeidung von Code-Duplizierung
+        private void ResetLabels()
+        {
             currentBinary = string.Empty;
             lblResultDez.Text = "Dezimal: -";
             lblResultBin.Text = "Binär (Base 2): -";
             lblResultOkt.Text = "Oktal (Base 8): -";
             lblResultHex.Text = "Hex (Base 16): -";
             btnCopyBin.Visible = false;
-            txtInput.Focus();
         }
 
         private void BtnCopyBin_Click(object sender, EventArgs e)
@@ -180,36 +214,6 @@ namespace NumerikKonverterGui
                 MessageBox.Show("Binärcode wurde in die Zwischenablage kopiert!", "Kopiert", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
-        // Ressourcenbereinigung beim Schliessen des Fensters (Verhindert Memory Leaks)
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // Pruefung auf Null und sichere Freigabe aller UI-Komponenten
-                cmbInputType?.Dispose();
-                txtInput?.Dispose();
-                btnConvert?.Dispose();
-                btnClear?.Dispose();
-                lblResultDez?.Dispose();
-                lblResultBin?.Dispose();
-                btnCopyBin?.Dispose();
-                lblResultOkt?.Dispose();
-                lblResultHex?.Dispose();
-                lblPrompt?.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        [STAThread]
-        static void Main()
-        {
-            // Aktivierung des modernen visuellen Stils fuer Windows Forms Komponenten
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            
-            // Startet die Anwendungsschleife mit dem Hauptfenster
-            Application.Run(new Program());
-        }
     }
 }
+
