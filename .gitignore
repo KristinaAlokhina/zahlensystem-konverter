@@ -21,3 +21,15 @@
 # --- Betriebssystem ---
 .DS_Store
 Thumbs.db
+
+
+# --- MSBuild / Visual Studio ---
+*.userprefs
+*.pidb
+*.aps
+*.cache
+*.com
+*.class
+*.exe
+*.dll
+
